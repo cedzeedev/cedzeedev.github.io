@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEDZEE - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Share Tech Mono', monospace;
+      background: #000;
+      color: #00ffcc;
+      position: relative;
+    }
+
+    canvas#particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    header {
+      padding: 2rem;
+      text-align: center;
+      font-size: 2.5rem;
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc;
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .neon-box {
+      background-color: rgba(0, 255, 204, 0.05);
+      border: 1px solid #00ffcc;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px #00ffcc40;
+      backdrop-filter: blur(4px);
+      animation: pulse 5s infinite;
+    }
+
+    h2 {
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc;
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+    }
+
+    p, li {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .languages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .language {
+      flex: 0 0 100px;
+      text-align: center;
+    }
+
+    .language img {
+      width: 60px;
+      height: auto;
+      filter: drop-shadow(0 0 5px #00ffcc);
+    }
+
+    .neon-button {
+      background: transparent;
+      color: #00ffcc;
+      border: 2px solid #00ffcc;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      text-shadow: 0 0 5px #00ffcc;
+      box-shadow: 0 0 5px #00ffcc;
+      transition: all 0.3s ease;
+    }
+
+    .neon-button:hover {
+      background-color: #00ffcc20;
+      box-shadow: 0 0 15px #00ffcc;
+    }
+
+    .terminal {
+      background-color: #000;
+      color: #00ffcc;
+      font-family: 'Share Tech Mono', monospace;
+      padding: 1rem;
+      border-radius: 10px;
+      border: 1px solid #00ffcc;
+      box-shadow: 0 0 10px #00ffcc40;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .line::before {
+      content: '> ';
+      color: #00ffcc;
+    }
+
+    .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.card {
+  background: transparent;
+  width: 200px;
+  height: 250px;
+  perspective: 1000px;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #00ffcc;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px #00ffcc40;
+  padding: 1rem;
+  background-color: rgba(0, 255, 204, 0.05);
+  transition: transform 0.8s;
+  text-align: center;
+}
+
+.card-front img {
+  width: 64px;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 5px #00ffcc);
+}
+
+.card-front {
+  z-index: 2;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  color: #00ffcc;
+}
+
+.card:hover .card-front {
+  transform: rotateY(180deg);
+}
+
+.card:hover .card-back {
+  transform: rotateY(360deg);
+}
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 10px #00ffcc40; }
+      50% { box-shadow: 0 0 20px #00ffcc80; }
+    }
+
+    @media (max-width: 768px) {
+      .language {
+        flex: 0 0 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-js"></canvas>
+  <header>CEDZEE</header>
+
+  <section class="neon-box">
+    <h2>cedzee.exe</h2>
+    <div class="terminal" id="terminal"></div>
+    
+  </section>
+
+  <section class="neon-box">
+    <h2>Langages maîtrisés</h2>
+    <div class="languages">
+      <div class="language">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+        <p>HTML5</p>
+      </div>
+      <div class="language">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+        <p>CSS3</p>
+      </div>
+      <div class="language">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+        <p>Python</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="neon-box">
+    <h2>Langages en cours d'apprentissage</h2>
+    <div class="languages">
+      <div class="language">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+        <p>PHP</p>
+      </div>
+    <div class="language">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/godot/godot-original.svg" alt="Godot">
+    <p>GDScript</p>
+    </div>
+    <div class="language">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+  <p>C++</p>
+</div>
+
+      <div class="language">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="C">
+        <p>C</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="neon-box">
+  <h2>Projets personnels</h2>
+  <div class="card-container">
+    <div class="card">
+      <div class="card-front">
+        <img src="https://galaxy-studio-web.fr/img/logo.png" alt="Projet 1" />
+        <h3>Galaxy Studio</h3>
+      </div>
+      <div class="card-back">
+        <p>Mon studio de jeux vidéos, on y trouve aussi un réseau social pour vidéos longues</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-front">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" alt="Projet 2" />
+        <h3>YouTube</h3>
+      </div>
+      <div class="card-back">
+        <p>Chaîne Youtube cumulant 1000abonnés sur laquelle je partage mes aventures en tant qu'apprenti développeur</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-front">
+        <img src="si.png" alt="Projet 3" />
+        <h3>Space Invader</h3>
+      </div>
+      <div class="card-back">
+        <p>Projet de fin d'année d'NSI. Avec mon binôme nous avons recréer Space Invader en python pour y implémenter des mécaniques nouvelles (20/20 à l'examen)</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-front">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="Projet 4" />
+        <h3>CEDZEE Browser</h3>
+      </div>
+      <div class="card-back">
+        <p>Création d'un navigateur communautaire</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-front">
+        <img src="num.png" alt="Projet 5" />
+        <h3>Evolve</h3>
+      </div>
+      <div class="card-back">
+        <p>Recoder le jeu Minecraft en python et sur une calculatrice Numworks avec un ram très limité</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-front">
+        <img src="arduino.png" alt="Projet 6" />
+        <h3>Détecteur et alarme anti-intrusion</h3>
+      </div>
+      <div class="card-back">
+        <p>Créer un système de détection de présence et d'activation d'alarme en Arduino</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section style="text-align:center; padding:2rem;">
+    <button class="neon-button" onclick="alert('Contact : cedzee.contact@gmail.com')">Me contacter</button>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#00ffcc" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#00ffcc", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 3 }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "repulse" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          repulse: { distance: 100 },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    const lines = [
+      "Bienvenue sur le portfolio de CEDZEE.",
+      "Chargement du profil...",
+      "Pseudonyme : CEDZEE",
+      "Spécialités : Gestion de projet et Développement Web",
+      "Objectif : Me perfectionner dans l'art du développement en tout genre",
+      "Présentation: Hey c'est CEDZEE, je suis un adolescent passioné de programmation informatique, ayant commencer à l'âge de 10ans en créant des jeux sur la plateformes Scratch, j'ai acquis de l'expérience dans de nombreux domaines en informatique. En ce moment je cherche à m'améliorer en développement de jeux vidéos",
+      "Merci pour votre visite", 
+      "CEDZEE.quit()"  
+    ];
+
+    const terminal = document.getElementById("terminal");
+    let index = 0;
+
+    function typeLine() {
+      if (index < lines.length) {
+        const line = document.createElement("div");
+        line.classList.add("line");
+        terminal.appendChild(line);
+        let charIndex = 0;
+
+        const interval = setInterval(() => {
+          if (charIndex < lines[index].length) {
+            line.textContent += lines[index].charAt(charIndex);
+            charIndex++;
+          } else {
+            clearInterval(interval);
+            index++;
+            setTimeout(typeLine, 500);
+          }
+        }, 50);
+      }
+    }
+
+    typeLine();
+  </script>
+</body>
+</html>
