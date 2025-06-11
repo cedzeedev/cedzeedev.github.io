@@ -84,6 +84,12 @@
       width: 60px;
       height: auto;
       filter: drop-shadow(0 0 5px #00ffcc);
+      transition: all .4s;
+    }
+
+    .language img:hover{
+      transition: all .4s;
+      filter: drop-shadow(0 0 20px #00ffcc);
     }
 
     .neon-button {
@@ -206,7 +212,7 @@
 </head>
 <body>
   <canvas id="particles-js"></canvas>
-  <header>CEDZEE</header>
+  <header>&lsaquo;/CEDZEE&rsaquo;</header>
 
   <section class="neon-box">
     <h2>cedzee.exe</h2>
@@ -375,9 +381,9 @@
           } else {
             clearInterval(interval);
             index++;
-            setTimeout(typeLine, 500);
+            setTimeout(typeLine, 600);
           }
-        }, 50);
+        }, 20);
       }
     }
 
